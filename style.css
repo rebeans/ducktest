@@ -35,7 +35,7 @@ td {
 
 .content-all {
     width: 70px;
-    height: 85px;
+    height: 55px;
 }
 
 .remark-bor { background-color: #F9F911; }
@@ -88,51 +88,6 @@ td {
     border-radius: 50%;
     box-sizing: border-box;
   }
-  
-#nextday-button {
-    position: fixed;
-    bottom: 70px; /* refresh-button보다 위 */
-    right: 20px;
-    z-index: 1000;
-
-    text-decoration: none;
-}
-
-.plus1d-icon {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(76, 175, 80, 0.6); /* 초록색 반투명 */
-    border-radius: 50%;
-    color: white;
-    font-size: 18px;
-    font-weight: bold;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    user-select: none;
-}
-
-#duty-button {
-    position: fixed;
-    bottom: 120px; /* nextday-button보다 위 */
-    right: 20px;
-    z-index: 1000;
-    cursor: pointer;
-}
-
-.duty-icon {
-    width: 40px;
-    height: 40px;
-    background-color: rgba(248, 122, 122, 0.6); /* 옅은 핑크 */
-    border-radius: 50%;
-    color: white;
-    font-size: 16px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    user-select: none;
-}
 
 #refresh-button.loading .refresh-icon, #nextday-button.loading .plus1d-icon, #duty-button.loading .duty-icon {
     animation: spin 1.3s linear infinite;
@@ -142,10 +97,11 @@ td {
     to { transform: rotate(360deg); }
   }
 
+/* 고정 열 */
 .sticky-col {
     position: sticky;
     left: 0;
-    background-color: white; 
-    z-index: 2;
-    box-shadow: 2px 0 5px rgba(0,0,0,0.1);
+    background-color: white; /* 배경색 없으면 스크롤 시 덮여서 안 보임 */
+    z-index: 2; /* 다른 셀보다 위에 있도록 */
+    box-shadow: 2px 0 5px rgba(0,0,0,0.1); /* 선택 사항: 좌측 그림자 */
 }

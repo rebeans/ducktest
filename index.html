@@ -4,6 +4,52 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인천공항 운항스케줄 임시 웹페이지</title>
+    <script>
+        // ✅ 페이지가 열릴 때 마지막 방문한 링크가 있으면 자동 이동
+        window.addEventListener('DOMContentLoaded', () => {
+            const lastLink = localStorage.getItem('lastVisitedLink');
+            if (lastLink && lastLink !== window.location.href) {
+                window.location.href = lastLink;
+            }
+        });
+
+        // ✅ 링크를 클릭할 때 마지막 방문한 링크로 저장
+        function saveLastLink(url) {
+            localStorage.setItem('lastVisitedLink', url);
+        }
+    </script>
+</head>
+<body>
+    <header>
+        <h2>공공데이터 복구로 기존 웹페이지에서 정보 제공. 데이터장애 발생시 본 임시페이지 재운영</h2>
+        <br>
+        <h3>
+            <a href="https://rebeans.github.io/duck1" onclick="saveLastLink(this.href)">
+                https://rebeans.github.io/duck1<br>제1여객터미널
+            </a>
+        </h3>
+        <br>
+        <h3>
+            <a href="https://rebeans.github.io/duck2" onclick="saveLastLink(this.href)">
+                https://rebeans.github.io/duck2<br>탑승동
+            </a>
+        </h3>
+        <br>
+        <h3>
+            <a href="https://rebeans.github.io/duck" onclick="saveLastLink(this.href)">
+                https://rebeans.github.io/duck<br>제2여객터미널
+            </a>
+        </h3>
+    </header>
+</body>
+</html>
+
+<!-- <!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>인천공항 운항스케줄 임시 웹페이지</title>
 </head>
 <body>
     <header>
@@ -17,7 +63,7 @@
     </header>
 </body>
 </html>
-<!--
+
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -39,3 +85,4 @@
 </body>
 </html>
 -->
+

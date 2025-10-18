@@ -5,25 +5,50 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인천공항 운항스케줄 임시 웹페이지</title>
     <script>
-      // 상태 저장
-      history.pushState({ scrollY: window.scrollY }, '', window.location.href);
-      
-      // 뒤로가기(popstate) 시 상태 복원
-      window.addEventListener('popstate', (event) => {
-        if (event.state && event.state.scrollY !== undefined) {
-          window.scrollTo(0, event.state.scrollY);
+      // ✅ 스크롤 위치 저장
+      function saveScrollPosition() {
+        localStorage.setItem('scrollY', window.scrollY);
+      }
+    
+      // ✅ 페이지가 열릴 때 실행
+      window.addEventListener('DOMContentLoaded', () => {
+        const lastLink = localStorage.getItem('lastVisitedLink');
+        const savedScroll = localStorage.getItem('scrollY');
+    
+        // ✅ 1. 마지막 링크로 자동 이동 (이미 그 페이지가 아니라면)
+        if (lastLink && lastLink !== window.location.href) {
+          history.pushState({ redirected: true }, '', window.location.href);
+          window.location.assign(lastLink);
+        }
+    
+        // ✅ 2. 스크롤 위치 복원
+        if (savedScroll !== null) {
+          window.scrollTo(0, parseInt(savedScroll, 10));
         }
       });
-  
-        // ✅ 스크롤 위치도 복원
-        const savedScroll = sessionStorage.getItem('scrollY');
-        if (savedScroll) {
-          window.scrollTo(0, parseInt(savedScroll));
-        }
+    
+      // ✅ 링크 클릭 시 마지막 방문 링크와 스크롤 위치 저장
+      function saveLastLink(url) {
+        localStorage.setItem('lastVisitedLink', url);
+        saveScrollPosition();
+      }
+    
+      // ✅ 스크롤이 변경될 때마다 현재 위치 저장
+      window.addEventListener('scroll', () => {
+        saveScrollPosition();
       });
-      // ✅ 페이지 나가기 전 스크롤 위치 저장
+    
+      // ✅ 페이지 떠날 때도 스크롤 위치 저장
       window.addEventListener('beforeunload', () => {
-        sessionStorage.setItem('scrollY', window.scrollY);
+        saveScrollPosition();
+      });
+    
+      // ✅ popstate로 뒤로가기 시 자동 리다이렉트 반복 방지
+      window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.redirected) {
+          localStorage.removeItem('lastVisitedLink');
+          localStorage.removeItem('scrollY');
+        }
       });
     </script>
 </head>
@@ -51,6 +76,7 @@
     </header>
 </body>
 </html>
+
 <!--
 <!DOCTYPE html>
 <html lang="ko">
@@ -93,4 +119,5 @@
 </body>
 </html>
 -->
+
 

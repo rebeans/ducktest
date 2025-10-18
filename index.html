@@ -4,53 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인천공항 운항스케줄 임시 웹페이지</title>
-    <script>
-      // ✅ 스크롤 위치 저장
-      function saveScrollPosition() {
-        localStorage.setItem('scrollY', window.scrollY);
-      }
-    
-      // ✅ 페이지가 열릴 때 실행
-      window.addEventListener('DOMContentLoaded', () => {
-        const lastLink = localStorage.getItem('lastVisitedLink');
-        const savedScroll = localStorage.getItem('scrollY');
-    
-        // ✅ 1. 마지막 링크로 자동 이동 (이미 그 페이지가 아니라면)
+<script>
+    // ✅ 페이지 로드 시 마지막 방문한 링크와 스크롤 위치 복원
+    window.addEventListener('DOMContentLoaded', () => {
+        const lastLink = sessionStorage.getItem('lastVisitedLink');
         if (lastLink && lastLink !== window.location.href) {
-          history.pushState({ redirected: true }, '', window.location.href);
-          window.location.assign(lastLink);
+            window.location.href = lastLink;
         }
-    
-        // ✅ 2. 스크롤 위치 복원
-        if (savedScroll !== null) {
-          window.scrollTo(0, parseInt(savedScroll, 10));
+
+        // 스크롤 위치 복원
+        const savedScrollY = sessionStorage.getItem('scrollPosition');
+        if (savedScrollY !== null) {
+            window.scrollTo(0, parseInt(savedScrollY, 10));
         }
-      });
-    
-      // ✅ 링크 클릭 시 마지막 방문 링크와 스크롤 위치 저장
-      function saveLastLink(url) {
-        localStorage.setItem('lastVisitedLink', url);
-        saveScrollPosition();
-      }
-    
-      // ✅ 스크롤이 변경될 때마다 현재 위치 저장
-      window.addEventListener('scroll', () => {
-        saveScrollPosition();
-      });
-    
-      // ✅ 페이지 떠날 때도 스크롤 위치 저장
-      window.addEventListener('beforeunload', () => {
-        saveScrollPosition();
-      });
-    
-      // ✅ popstate로 뒤로가기 시 자동 리다이렉트 반복 방지
-      window.addEventListener('popstate', (event) => {
-        if (event.state && event.state.redirected) {
-          localStorage.removeItem('lastVisitedLink');
-          localStorage.removeItem('scrollY');
-        }
-      });
-    </script>
+    });
+
+    // ✅ 링크 클릭 시 마지막 방문한 링크 저장
+    function saveLastLink(url) {
+        sessionStorage.setItem('lastVisitedLink', url);
+    }
+
+    // ✅ 스크롤할 때 스크롤 위치를 실시간 저장
+    window.addEventListener('scroll', () => {
+        sessionStorage.setItem('scrollPosition', window.scrollY);
+    });
+</script>
 </head>
 <body>
     <header>
@@ -119,5 +97,6 @@
 </body>
 </html>
 -->
+
 
 

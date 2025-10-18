@@ -1,82 +1,30 @@
 <!DOCTYPE html>
 <html lang="ko">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>인천공항 운항스케줄 임시 웹페이지</title>
-  <script>
-    window.addEventListener('DOMContentLoaded', () => {
-      const lastLink = localStorage.getItem('lastVisitedLink');
-
-      // ✅ 현재 페이지가 index.html이고, 저장된 링크가 있으며, 최초 접속일 때만 자동 이동
-      if (lastLink && location.pathname.endsWith('index.html') || location.pathname === '/') {
-        // history.pushState로 히스토리 쌓기 → 뒤로가기 가능
-        history.pushState({ autoRedirect: true }, '', window.location.href);
-
-        // a태그 클릭과 동일하게 이동 (뒤로가기도 가능)
-        window.location.assign(lastLink);
-      }
-    });
-
-    // ✅ 링크 클릭 시 마지막 방문 링크 저장
-    function saveLastLink(url) {
-      localStorage.setItem('lastVisitedLink', url);
-    }
-
-    // ✅ 뒤로가기로 돌아왔을 때 자동 리다이렉트 방지
-    window.addEventListener('popstate', (event) => {
-      if (event.state && event.state.autoRedirect) {
-        // index.html 히스토리 상태로 복귀
-        localStorage.removeItem('lastVisitedLink');
-      }
-    });
-  </script>
-</head>
-<body>
-  <header>
-    <h2>공공데이터 복구로 기존 웹페이지에서 정보 제공. 데이터장애 발생시 본 임시페이지 재운영</h2>
-    <br>
-    <h3>
-      <a href="https://rebeans.github.io/duck1" onclick="saveLastLink(this.href)">
-        https://rebeans.github.io/duck1<br>제1여객터미널
-      </a>
-    </h3>
-    <br>
-    <h3>
-      <a href="https://rebeans.github.io/duck2" onclick="saveLastLink(this.href)">
-        https://rebeans.github.io/duck2<br>탑승동
-      </a>
-    </h3>
-    <br>
-    <h3>
-      <a href="https://rebeans.github.io/duck" onclick="saveLastLink(this.href)">
-        https://rebeans.github.io/duck<br>제2여객터미널
-      </a>
-    </h3>
-  </header>
-</body>
-</html>
-
-
-<!-- <!DOCTYPE html>
-<html lang="ko">
-<head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인천공항 운항스케줄 임시 웹페이지</title>
     <script>
-        // ✅ 페이지가 열릴 때 마지막 방문한 링크가 있으면 자동 이동
-        window.addEventListener('DOMContentLoaded', () => {
-            const lastLink = localStorage.getItem('lastVisitedLink');
-            if (lastLink && lastLink !== window.location.href) {
-                window.location.href = lastLink;
-            }
-        });
-
-        // ✅ 링크를 클릭할 때 마지막 방문한 링크로 저장
-        function saveLastLink(url) {
-            localStorage.setItem('lastVisitedLink', url);
+      // 상태 저장
+      history.pushState({ scrollY: window.scrollY }, '', window.location.href);
+      
+      // 뒤로가기(popstate) 시 상태 복원
+      window.addEventListener('popstate', (event) => {
+        if (event.state && event.state.scrollY !== undefined) {
+          window.scrollTo(0, event.state.scrollY);
         }
+      });
+  
+        // ✅ 스크롤 위치도 복원
+        const savedScroll = sessionStorage.getItem('scrollY');
+        if (savedScroll) {
+          window.scrollTo(0, parseInt(savedScroll));
+        }
+      });
+      // ✅ 페이지 나가기 전 스크롤 위치 저장
+      window.addEventListener('beforeunload', () => {
+        sessionStorage.setItem('scrollY', window.scrollY);
+      });
     </script>
 </head>
 <body>
@@ -103,7 +51,7 @@
     </header>
 </body>
 </html>
-
+<!--
 <!DOCTYPE html>
 <html lang="ko">
 <head>
@@ -145,5 +93,4 @@
 </body>
 </html>
 -->
-
 

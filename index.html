@@ -139,15 +139,13 @@ document.addEventListener("DOMContentLoaded", function () {
         overlay.id = "kakao-overlay";
         overlay.innerHTML = `
             <div class="kakao-box">
-                <h2>카카오톡 브라우저에서는 설치가 불가합니다</h2>
                 <p>
                 현재 카카오톡 내 브라우저로 접속되었습니다.<br>
-                웹앱 설치(PWA) 및 정상 동작을 위해<br>
+                웹앱 설치 및 정상 동작을 위해<br>
                 반드시 기본 브라우저에서 열어주세요.
                 </p>
                 <hr>
                 <p><strong>${guideText}</strong></p>
-                <button onclick="location.reload()">확인</button>
             </div>
         `;
         document.body.appendChild(overlay);

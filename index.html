@@ -4,27 +4,156 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>인천공항 운항스케줄 웹사이트 안내</title>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        #kakao-overlay {
+            position: fixed;
+            inset: 0;
+            background: #ffffff;
+            z-index: 99999;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            padding: 20px;
+        }
+
+        .kakao-box {
+            max-width: 520px;
+            font-size: 18px;
+            line-height: 1.6;
+        }
+
+        .kakao-box h2 {
+            color: red;
+            margin-bottom: 15px;
+        }
+
+        .kakao-box hr {
+            margin: 20px 0;
+        }
+
+        .kakao-box button {
+            margin-top: 20px;
+            padding: 12px 20px;
+            font-size: 16px;
+            border: none;
+            background: black;
+            color: white;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .kakao-box button:hover {
+            opacity: 0.85;
+        }
+    </style>
 </head>
+
 <body>
-    <header>
-        <h3 style="color:red">인천공항 운항스케줄 웹사이트 안내</h3>
-        <h3> 공공데이터 장애시 운영(평시 운영X)</h3>
-        <h3><a href="http://144.24.74.26:3000/e.html">http://144.24.74.26:3000/e.html<br>전체터미널</a></h3>
-        <h3> ▼ 각 터미널 웹사이트 </h3>
-        <h3><a href="https://rebeans.github.io/duck1">https://rebeans.github.io/duck1<br>제1여객터미널</a></h3>
-        <h3><a href="https://rebeans.github.io/duck2">https://rebeans.github.io/duck2<br>탑승동</a></h3>
-        <h3><a href="https://rebeans.github.io/duck">https://rebeans.github.io/duck<br>제2여객터미널</a></h3>
-        <h3 style="color:red"> ▼ 속도 개선된 웹사이트 </h3>
-        <h3><a href="http://144.24.74.26:3000/t1.html">http://144.24.74.26:3000/t1.html<br>제1여객터미널</a></h3>
-        <h3><a href="http://144.24.74.26:3000/c1.html">http://144.24.74.26:3000/c1.html<br>탑승동</a></h3>
-        <h3><a href="http://144.24.74.26:3000/t2.html">http://144.24.74.26:3000/t2.html<br>제2여객터미널</a></h3>
-        <h4 style="color:red"> ▼ 구 웹사이트 </h4>
-        <h4><a href="https://rebean.duckdns.org">https://rebean.duckdns.org</a></h4>
-        <h3 style="color:green">원하는 웹사이트로 이동후 '홈 화면에 추가'를 하여 사용하세요.</h3>
-    </header>
+
+<header>
+    <h3 style="color:red">인천공항 운항스케줄 웹사이트 안내</h3>
+    <h3>공공데이터 장애시 운영(평시 운영X)</h3>
+
+    <h3>
+        <a href="http://144.24.74.26:3000/e.html">
+            http://144.24.74.26:3000/e.html<br>전체터미널
+        </a>
+    </h3>
+
+    <h3>▼ 각 터미널 웹사이트</h3>
+
+    <h3>
+        <a href="https://rebeans.github.io/duck1">
+            https://rebeans.github.io/duck1<br>제1여객터미널
+        </a>
+    </h3>
+
+    <h3>
+        <a href="https://rebeans.github.io/duck2">
+            https://rebeans.github.io/duck2<br>탑승동
+        </a>
+    </h3>
+
+    <h3>
+        <a href="https://rebeans.github.io/duck">
+            https://rebeans.github.io/duck<br>제2여객터미널
+        </a>
+    </h3>
+
+    <h3 style="color:red">▼ 속도 개선된 웹사이트</h3>
+
+    <h3>
+        <a href="http://144.24.74.26:3000/t1.html">
+            http://144.24.74.26:3000/t1.html<br>제1여객터미널
+        </a>
+    </h3>
+
+    <h3>
+        <a href="http://144.24.74.26:3000/c1.html">
+            http://144.24.74.26:3000/c1.html<br>탑승동
+        </a>
+    </h3>
+
+    <h3>
+        <a href="http://144.24.74.26:3000/t2.html">
+            http://144.24.74.26:3000/t2.html<br>제2여객터미널
+        </a>
+    </h3>
+
+    <h4 style="color:red">▼ 구 웹사이트</h4>
+    <h4>
+        <a href="https://rebean.duckdns.org">
+            https://rebean.duckdns.org
+        </a>
+    </h4>
+
+    <h3 style="color:green">
+        원하는 웹사이트로 이동 후 '홈 화면에 추가'를 하여 사용하세요.
+    </h3>
+</header>
+
+<script>
+function isKakaoInApp() {
+    return /KAKAOTALK/i.test(navigator.userAgent);
+}
+
+function isIOS() {
+    return /iPhone|iPad|iPod/i.test(navigator.userAgent);
+}
+
+document.addEventListener("DOMContentLoaded", function () {
+
+    if (isKakaoInApp()) {
+
+        const guideText = isIOS()
+            ? "우측 하단 공유버튼 → 'Safari에서 열기' 선택"
+            : "우측 상단 ⋮ 버튼 → '외부 브라우저로 열기' 선택";
+
+        const overlay = document.createElement("div");
+        overlay.id = "kakao-overlay";
+        overlay.innerHTML = `
+            <div class="kakao-box">
+                <h2>카카오톡 브라우저에서는 설치가 불가합니다</h2>
+                <p>
+                현재 카카오톡 내 브라우저로 접속되었습니다.<br>
+                웹앱 설치(PWA) 및 정상 동작을 위해<br>
+                반드시 기본 브라우저에서 열어주세요.
+                </p>
+                <hr>
+                <p><strong>${guideText}</strong></p>
+                <button onclick="location.reload()">확인</button>
+            </div>
+        `;
+        document.body.appendChild(overlay);
+    }
+});
+</script>
+
 </body>
 </html>
-
-
-
-

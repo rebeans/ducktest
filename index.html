@@ -57,14 +57,14 @@
 <body>
 
 <header>
-    <h3 style="color:red">인천공항 운항스케줄 웹사이트 안내</h3>
-    <h3>공공데이터 장애시 운영(평시 운영X)</h3>
+    <h3>인천공항 운항스케줄 웹사이트 안내</h3>
+    <h4>공공데이터 장애시 운영(평시 운영X)</h4>
 
-    <h3>
+    <h4>
         <a href="http://144.24.74.26:3000/e.html">
             http://144.24.74.26:3000/e.html<br>전체터미널
         </a>
-    </h3>
+    </h4>
 
     <h3 style="color:red">▼ 웹사이트(앱설치-접속후 좌상단 버튼터치)</h3>
 
@@ -145,7 +145,7 @@ document.addEventListener("DOMContentLoaded", function () {
                 반드시 기본 브라우저에서 열어주세요.
                 </p>
                 <hr>
-                <p><strong>${guideText}</strong></p>
+                <p><strong style="color: red;">${guideText}</strong></p>
             </div>
         `;
         document.body.appendChild(overlay);
